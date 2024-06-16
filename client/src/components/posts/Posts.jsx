@@ -3,17 +3,12 @@ import "./posts.scss";
 import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 
-const Posts = () => {
-  // Verwende die neue Signatur für useQuery
+const Posts = ({userId}) => {
+  
   const { isLoading, error, data } = useQuery({
     queryKey: ['posts'],
-    queryFn: () => makeRequest.get("/posts").then((res) => res.data)
+    queryFn: () => makeRequest.get("/posts?userId=" + userId).then((res) => res.data)
   });
-
-  // Debugging Information
-  console.log("Loading:", isLoading);
-  console.log("Error:", error);
-  console.log("Data:", data);
 
   if (isLoading) {
     return <div>Loading...</div>;
