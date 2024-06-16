@@ -1,5 +1,5 @@
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,23 +7,22 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
-import Navbar from "./components/navbar/Navbar";
-import LeftBar from "./components/leftBar/LeftBar";
-import RightBar from "./components/rightBar/RightBar";
-import Home from "./pages/home/Home";
-import Profile from "./pages/profile/Profile";
+import Navbar from "./components/Navbar";
+import LeftBar from "./components/LeftBar";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 import "./style.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import ComingSoon from "./pages/ComingSoon";
 
 function App() {
   const {currentUser} = useContext(AuthContext);
 
   const { darkMode } = useContext(DarkModeContext);
 
-  
   const queryClient = new QueryClient()
 
   const Layout = () => {
@@ -33,10 +32,9 @@ function App() {
           <Navbar />
           <div style={{ display: "flex" }}>
             <LeftBar />
-            <div style={{ flex: 6 }}>
+            <div style={{ flex: 7 }}>
               <Outlet />
             </div>
-            <RightBar />
           </div>
         </div>
       </QueryClientProvider>
@@ -68,6 +66,10 @@ function App() {
           path: "/profile/:id",
           element: <Profile />,
         },
+        {
+          path: "/coming-soon",
+          element: <ComingSoon />
+        }
       ],
     },
     {

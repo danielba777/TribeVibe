@@ -6,13 +6,20 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(() => {
     const user = localStorage.getItem("user");
-    try {
-      return user ? JSON.parse(user) : null;
-    } catch (e) {
-      console.error("Failed to parse user from localStorage:", e);
-      return null;
-    }
+    return user ? JSON.parse(user) : null;
   });
+
+  const fetchCurrentUser = async () => {
+    try {
+      const res = await axios.get("http://localhost:8800/api/users/current", {
+        withCredentials: true,
+      });
+      setCurrentUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+    } catch (err) {
+      console.error("Error fetching current user:", err);
+    }
+  };
 
   const login = async (inputs) => {
     try {
@@ -20,21 +27,29 @@ export const AuthContextProvider = ({ children }) => {
         withCredentials: true,
       });
       setCurrentUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
     } catch (err) {
       console.error("Login error:", err);
     }
   };
 
+  const updateUserContext = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem("user", JSON.stringify(user));
+  };
+
   useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem("user", JSON.stringify(currentUser));
+    const user = localStorage.getItem("user");
+    if (user) {
+      setCurrentUser(JSON.parse(user));
+    } else {
+      fetchCurrentUser();
     }
-  }, [currentUser]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, login }}>
+    <AuthContext.Provider value={{ currentUser, login, updateUserContext }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
