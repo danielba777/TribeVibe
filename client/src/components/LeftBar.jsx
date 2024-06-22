@@ -12,15 +12,30 @@ import Messages from "../assets/10.png";
 import Tutorials from "../assets/11.png";
 import Courses from "../assets/12.png";
 import Fund from "../assets/13.png";
+import Logout from '../assets/14.png'
 import { AuthContext } from "../context/authContext";
 import { DarkModeContext } from "../context/darkModeContext";
 import { useContext } from "react";
+import axios from "axios";
 
 const LeftBar = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, updateUserContext } = useContext(AuthContext);
   const { toggle, darkMode } = useContext(DarkModeContext);
 
-  console.log("currentUser from leftBar: ", currentUser)
+  const logoutHandler = async (e) => {
+    e.preventDefault()
+
+    try {
+      const res = await axios.post("http://localhost:8800/api/auth/logout", {
+        withCredentials: true,
+      });
+
+      updateUserContext(null)
+
+    } catch (err) {
+      console.log("Logout Error: ", err)
+    }
+  } 
 
   return (
     <div className={`hidden lg:flex flex-col w-1/4 h-100vh sticky top-0 overflow-y-auto ${darkMode ? 'bg-zinc-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
@@ -102,6 +117,13 @@ const LeftBar = () => {
               <span>Courses</span>
             </Link>
           </div>
+        </div>
+        <hr className="my-5 border-gray-300 dark:border-gray-700" />
+        <div>
+            <button onClick={logoutHandler} className="flex items-center gap-3">
+              <img src={Logout} alt="" className="w-8 h-8" />
+              <span>Logout</span>
+            </button>
         </div>
       </div>
     </div>

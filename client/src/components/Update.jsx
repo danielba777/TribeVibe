@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AuthContext } from '../context/authContext';
 
 const Update = ({ setOpenUpdate, user }) => {
-  const { updateUserContext } = useContext(AuthContext);
+  const { updateUserContext, currentUser, fetchCurrentUser } = useContext(AuthContext);
   const [cover, setCover] = useState(null);
   const [profile, setProfile] = useState(null);
   const [texts, setTexts] = useState({
@@ -35,9 +35,10 @@ const Update = ({ setOpenUpdate, user }) => {
       return makeRequest.put('/users', updatedUser);
     },
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.invalidateQueries(['user']);
-        updateUserContext(data);
+        fetchCurrentUser();
+        updateUserContext(currentUser);
       },
     }
   );

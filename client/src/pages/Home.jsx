@@ -8,7 +8,7 @@ const Home = () => {
   const { darkMode } = useContext(DarkModeContext);
 
   return (
-    <div className={`home ${darkMode ? "bg-[#333] text-white" : "bg-[#f6f3f3] text-black"} min-h-screen p-5 lg:p-20`}>
+    <div className={`home ${darkMode ? "bg-[#333] text-white min-h-[100vh]" : "bg-[#f6f3f3] text-black"} min-h-[100vh] p-5 lg:p-20`}>
       <Stories />
       <Share />
       <Posts />

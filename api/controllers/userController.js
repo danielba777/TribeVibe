@@ -16,28 +16,33 @@ export const getUser = (req, res) => {
 }
 
 export const updateUser = (req, res) => {
-    
-    const token = req.cookies.accessToken
-    if(!token) return res.status(401).json("Not authenticated!")
-
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("Not authenticated!");
+  
     jwt.verify(token, "secretkey", (err, userInfo) => {
-
-        if(err) return res.status(403).json("Token is not valid!")
-
-        const q = "UPDATE users SET `name`= ?, `city` = ?, `website` = ?, `profilePic` = ?, `coverPic` = ? WHERE id = ?"
-
-        db.query(q, [
-            req.body.name,
-            req.body.city,
-            req.body.website,
-            req.body.profilePic,
-            req.body.coverPic,
-            userInfo.id
-        ],
-        (err, data) => {
-            if (err) res.status(500).json(err)
-            if (data.affectedRows > 0) return res.json("Updated!")
-            return res.status(403).json("You can update only your post!")
-        })
-    })
-}
+      if (err) return res.status(403).json("Token is not valid!");
+  
+      // Initialize query parts
+      let query = "UPDATE users SET ";
+      const values = [];
+      const fields = ["name", "city", "website", "profilePic", "coverPic"];
+  
+      fields.forEach((field) => {
+        if (req.body[field] !== undefined && req.body[field] !== null && req.body[field] !== '') {
+          query += `\`${field}\` = ?, `;
+          values.push(req.body[field]);
+        }
+      });
+  
+      // Remove the last comma and space
+      query = query.slice(0, -2);
+      query += " WHERE id = ?";
+      values.push(userInfo.id);
+  
+      db.query(query, values, (err, data) => {
+        if (err) return res.status(500).json(err);
+        if (data.affectedRows > 0) return res.json("Updated!");
+        return res.status(403).json("You can update only your post!");
+      });
+    });
+  };

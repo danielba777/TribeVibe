@@ -9,6 +9,7 @@ import likeRoutes from "./routes/likeRoutes.js"
 import relationshipRoutes from "./routes/relationshipRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
+import storyRoutes from "./routes/storyRoutes.js"
 
 const port = 8800
 
@@ -46,6 +47,7 @@ app.use("/api/likes", likeRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/relationships", relationshipRoutes)
+app.use("/api/stories", storyRoutes)
 
 app.listen(port, () => {
     console.log(`API is running on port ${port}`)

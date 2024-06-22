@@ -11,7 +11,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const fetchCurrentUser = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/api/users/current", {
+      const res = await axios.get(`http://localhost:8800/api/users/find/${currentUser.id}`, {
         withCredentials: true,
       });
       setCurrentUser(res.data);
@@ -48,7 +48,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, updateUserContext }}>
+    <AuthContext.Provider value={{ currentUser, login, updateUserContext, fetchCurrentUser }}>
       {children}
     </AuthContext.Provider>
   );
