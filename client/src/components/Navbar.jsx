@@ -33,7 +33,7 @@ const Navbar = () => {
   }, [searchQuery])
 
   return (
-    <nav className={`bg-white border-gray-200 dark:bg-gray-900 sticky top-0 z-50 ${darkMode ? 'bg-zinc-900 text-gray-200 border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}>
+    <nav className={`sticky top-0 z-50 ${darkMode ? 'bg-zinc-900 text-gray-200 border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}>
       <div className="sm:hidden max-w-screen flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TribeVibe</span>
