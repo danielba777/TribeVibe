@@ -4,7 +4,7 @@
  
 TribeVibe is a dynamic social networking platform designed to bring people together, share experiences, and build lasting connections. Whether you’re looking to stay in touch with friends, follow inspiring stories, or discover new communities, TribeVibe is your go-to space for vibrant interactions and meaningful engagements.
 
-## Features
+# Features
 
 **Posts**
 * Share Your Moments: Post updates, photos, and thoughts to keep your friends and followers updated.
@@ -30,4 +30,58 @@ TribeVibe is a dynamic social networking platform designed to bring people toget
 **User Interaction**
 * Build Your Tribe: Follow or unfollow users to stay connected with people who matter to you.
 * Stay Informed: Get the latest updates from your followers directly on your homepage.
- 
+
+# Test User Accounts
+```
+# John Doe
+john
+P: 123456
+
+# Jane Doe
+jane
+P: 123456
+
+# Daniel Smith
+daniel
+P: 123456
+```
+
+# Usage
+* Create MySQL-Database and obtain your Hostname, username, password and the database name
+
+## .env - Variables
+
+Rename the example.env to .env and add the following:
+```
+host=YOUR_HOST
+user=YOUR_USER
+password=YOUR_PASSWORD
+database=YOUR_DATABASE
+```
+
+## Install dependencies (frontend + backend)
+```
+cd api
+yarn
+cd client
+yarn
+```
+
+## Run 
+```
+# Run backend
+cd api
+yarn start
+
+# Run frontend
+cd client
+yarn start
+```
+
+# Build & Deploy
+
+## Create frontend production build
+```
+cd client
+yarn build
+```
