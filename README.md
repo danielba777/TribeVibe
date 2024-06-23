@@ -1,6 +1,8 @@
 # TribeVibe Social Network
 
 > Social Network built with React, Node.js, Express.js & MySQL.
+
+![Preview Screenshot Collection of the TribeVibe Social Network Application](https://i.postimg.cc/d3pzkb3q/Tribe-Vibe-Preview.png)
  
 TribeVibe is a dynamic social networking platform designed to bring people together, share experiences, and build lasting connections. Whether you’re looking to stay in touch with friends, follow inspiring stories, or discover new communities, TribeVibe is your go-to space for vibrant interactions and meaningful engagements.
 
