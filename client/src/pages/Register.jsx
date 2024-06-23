@@ -12,7 +12,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8800/api/auth/register", {
+      await axios.post("https://tribevibe.onrender.com/api/auth/register", {
         name,
         username,
         email,

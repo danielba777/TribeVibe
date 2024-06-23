@@ -27,7 +27,7 @@ const LeftBar = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:8800/api/auth/logout", {
+      const res = await axios.post("https://tribevibe.onrender.com/api/auth/logout", {
         withCredentials: true,
       });
 

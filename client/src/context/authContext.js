@@ -11,7 +11,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const fetchCurrentUser = async () => {
     try {
-      const res = await axios.get(`http://localhost:8800/api/users/find/${currentUser.id}`, {
+      const res = await axios.get(`https://tribevibe.onrender.com/api/users/find/${currentUser.id}`, {
         withCredentials: true,
       });
       setCurrentUser(res.data);
@@ -23,7 +23,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (inputs) => {
     try {
-      const res = await axios.post("http://localhost:8800/api/auth/login", inputs, {
+      const res = await axios.post("https://tribevibe.onrender.com/api/auth/login", inputs, {
         withCredentials: true,
       });
       setCurrentUser(res.data);
