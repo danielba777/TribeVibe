@@ -5,14 +5,16 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from "react-router-dom";
 import Comments from "./Comments";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import moment from "moment";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../axios";
 import { AuthContext } from "../context/authContext";
 import { DarkModeContext } from "../context/darkModeContext";
+import Loader from './Loader'
 
 const Post = ({ post }) => {
+
   const [commentOpen, setCommentOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -57,8 +59,16 @@ const Post = ({ post }) => {
     deleteMutation.mutate(post.id);
   };
 
+  useEffect(() => {
+    if (menuOpen) {
+      setTimeout(function(){
+        setMenuOpen(false)
+      }, 3000)
+    }
+  },[menuOpen])
+
   return (
-    <div className={`shadow-lg rounded-2xl mb-6 ${darkMode ? 'bg-zinc-900 text-white' : 'bg-white text-gray-800'}`}>
+    <div className={`shadow-lg rounded-2xl mb-2 ${darkMode ? 'bg-zinc-900 text-white' : 'bg-white text-gray-800'}`}>
       <div className="p-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-5">
@@ -77,7 +87,7 @@ const Post = ({ post }) => {
               <span className="text-sm">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
-          <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
+          {!menuOpen && <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />}
           {menuOpen && post.userId === currentUser.id && (
             <button onClick={handleDelete} className="ml-3 text-sm text-red-500">Delete</button>
           )}
@@ -95,20 +105,20 @@ const Post = ({ post }) => {
         <div className="flex items-center gap-5 text-sm">
           <div className="flex items-center gap-2 cursor-pointer" onClick={handleLike}>
             {isLoading ? (
-              "Loading..."
+              <Loader />
             ) : data?.includes(currentUser.id) ? (
               <FavoriteOutlinedIcon className="text-red-500" />
             ) : (
               <FavoriteBorderOutlinedIcon />
             )}
-            {data?.length} Likes
+            {post.likeCount} Likes
           </div>
           <div
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => setCommentOpen(!commentOpen)}
           >
             <TextsmsOutlinedIcon />
-            12 Comments
+            {post.commentCount} Comments
           </div>
           <div className="flex items-center gap-2 cursor-pointer">
             <ShareOutlinedIcon />

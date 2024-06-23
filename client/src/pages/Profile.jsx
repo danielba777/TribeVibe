@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -24,14 +24,20 @@ const Profile = () => {
   const { currentUser } = useContext(AuthContext);
   const { darkMode } = useContext(DarkModeContext);
 
-  const userId = parseInt(useLocation().pathname.split("/")[2]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userId = parseInt(location.pathname.split("/")[2]);
 
   const queryClient = useQueryClient();
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["user"],
+  const { isLoading, error, data, refetch } = useQuery({
+    queryKey: ["user", userId],
     queryFn: () => makeRequest.get("/users/find/" + userId).then((res) => res.data),
   });
+
+  useEffect(() => {
+    refetch();
+  }, [userId, refetch]);
 
   const { isLoading: rIsLoading, data: relationshipData } = useQuery({
     queryKey: ["relationship", userId],
@@ -46,7 +52,7 @@ const Profile = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["relationship"]);
+        queryClient.invalidateQueries(["relationship", userId]);
       },
     }
   );

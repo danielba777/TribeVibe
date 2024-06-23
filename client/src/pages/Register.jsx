@@ -35,7 +35,7 @@ const Register = () => {
           </p>
           <span className="text-sm">Do you have an account?</span>
           <Link to="/login">
-            <button className="w-1/2 p-2 bg-white text-blue-700 font-bold cursor-pointer">Login</button>
+            <button className="w-1/2 p-2 bg-white text-blue-700 font-bold cursor-pointer rounded-md">Login</button>
           </Link>
         </div>
         <div className="flex-1 p-12 flex flex-col gap-12 justify-center">
@@ -71,7 +71,7 @@ const Register = () => {
             />
             <button 
               type="submit" 
-              className="w-1/2 p-2 bg-blue-500 text-white font-bold cursor-pointer"
+              className="w-1/2 p-2 bg-blue-500 text-white font-bold cursor-pointer rounded-md"
             >
               Register
             </button>

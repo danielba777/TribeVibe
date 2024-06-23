@@ -17,9 +17,10 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import ComingSoon from "./pages/ComingSoon";
+import SearchResults from './pages/SearchResults'
 
 function App() {
-  const {currentUser} = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   const { darkMode } = useContext(DarkModeContext);
 
@@ -28,7 +29,7 @@ function App() {
   const Layout = () => {
     return (
       <QueryClientProvider client={queryClient}>
-        <div className={`theme-${darkMode ? "dark" : "light"}`}>
+        <div className={`${darkMode ? "bg-[#333] text-white min-h-[100vh]" : "bg-[#f6f3f3] text-black"}`}>
           <Navbar />
           <div style={{ display: "flex" }}>
             <LeftBar />
@@ -69,6 +70,10 @@ function App() {
         {
           path: "/coming-soon",
           element: <ComingSoon />
+        },
+        {
+          path: "/search/:q",
+          element: <SearchResults />
         }
       ],
     },

@@ -32,7 +32,7 @@ const Login = () => {
           </p>
           <span className="text-sm">Don't you have an account?</span>
           <Link to="/register">
-            <button className="w-1/2 p-2 bg-white text-blue-700 font-bold cursor-pointer">Register</button>
+            <button className="w-1/2 p-2 bg-white text-blue-700 font-bold cursor-pointer rounded-md">Register</button>
           </Link>
         </div>
         <div className="flex-1 p-12 flex flex-col gap-12 justify-center">
@@ -54,7 +54,7 @@ const Login = () => {
             />
             <button 
               type="submit" 
-              className="w-1/2 p-2 bg-blue-500 text-white font-bold cursor-pointer"
+              className="w-1/2 p-2 bg-blue-500 text-white font-bold cursor-pointer rounded-md"
             >
               Login
             </button>

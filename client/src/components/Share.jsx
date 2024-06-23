@@ -1,7 +1,7 @@
 import Image from "../assets/img.png";
 import Map from "../assets/map.png";
 import Friend from "../assets/friend.png";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../context/authContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from '../axios.js';
@@ -10,15 +10,16 @@ import { DarkModeContext } from "../context/darkModeContext";
 const Share = () => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
+  const fileInputRef = useRef(null);
 
   const upload = async () => {
     try {
-      const formData = new FormData()
-      formData.append("file", file)
-      const res = await makeRequest.post("/upload", formData)
-      return res.data
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await makeRequest.post("/upload", formData);
+      return res.data;
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
 
@@ -37,7 +38,11 @@ const Share = () => {
       },
     }
   );
-  
+
+  useEffect(() => {
+    console.log("File: ", file);
+  }, [file]);
+
   const handleClick = async (e) => {
     e.preventDefault();
     let imgUrl = "";
@@ -45,6 +50,10 @@ const Share = () => {
     mutation.mutate({ desc, img: imgUrl });
     setDesc("");
     setFile(null);
+  };
+
+  const handleAddImageClick = () => {
+    fileInputRef.current.click();
   };
 
   return (
@@ -71,21 +80,18 @@ const Share = () => {
             <input 
               type="file" 
               id="file" 
+              ref={fileInputRef}
               style={{ display: "none" }} 
               onChange={(e) => setFile(e.target.files[0])} 
             />
-            <label htmlFor="file" className="flex items-center gap-2 cursor-pointer">
+            <button
+              type="button"
+              onClick={handleAddImageClick}
+              className="flex items-center gap-2 cursor-pointer relative z-10"
+            >
               <img src={Image} alt="" className="w-5 h-5" />
-              <span className="text-sm text-gray-500">Add Image</span>
-            </label>
-            <div className="flex items-center gap-2 cursor-pointer">
-              <img src={Map} alt="" className="w-5 h-5" />
-              <span className="text-sm text-gray-500">Add Place</span>
-            </div>
-            <div className="flex items-center gap-2 cursor-pointer">
-              <img src={Friend} alt="" className="w-5 h-5" />
-              <span className="text-sm text-gray-500">Tag Friends</span>
-            </div>
+              <span className={`text-sm ${darkMode ? "text-white" : "text-gray-500"}`}>Add Image</span>
+            </button>
           </div>
           <button 
             onClick={handleClick} 

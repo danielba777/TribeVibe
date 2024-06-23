@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Friends from "../assets/1.png";
 import Groups from "../assets/2.png";
 import Market from "../assets/3.png";
@@ -12,7 +12,7 @@ import Messages from "../assets/10.png";
 import Tutorials from "../assets/11.png";
 import Courses from "../assets/12.png";
 import Fund from "../assets/13.png";
-import Logout from '../assets/14.png'
+import Logout from '../assets/14.png';
 import { AuthContext } from "../context/authContext";
 import { DarkModeContext } from "../context/darkModeContext";
 import { useContext } from "react";
@@ -21,36 +21,40 @@ import axios from "axios";
 const LeftBar = () => {
   const { currentUser, updateUserContext } = useContext(AuthContext);
   const { toggle, darkMode } = useContext(DarkModeContext);
+  const navigate = useNavigate();
 
   const logoutHandler = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
       const res = await axios.post("http://localhost:8800/api/auth/logout", {
         withCredentials: true,
       });
 
-      updateUserContext(null)
+      updateUserContext(null);
+      navigate("/login");
 
     } catch (err) {
-      console.log("Logout Error: ", err)
+      console.log("Logout Error: ", err);
     }
-  } 
+  };
+
+  const handleProfileClick = () => {
+    navigate(`/profile/${currentUser.id}`, { replace: true });
+  };
 
   return (
     <div className={`hidden lg:flex flex-col w-1/4 h-100vh sticky top-0 overflow-y-auto ${darkMode ? 'bg-zinc-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
       <div className="p-5">
         <div className="mb-5">
-          <Link to={`/profile/${currentUser.id}`}>
-            <div className="flex items-center gap-3 mb-4">
-              <img
-                src={"/upload/" + currentUser.profilePic}
-                alt=""
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <span className="text-lg font-semibold">{currentUser.name}</span>
-            </div>
-          </Link>
+          <div onClick={handleProfileClick} className="flex items-center gap-3 mb-4 cursor-pointer">
+            <img
+              src={"/upload/" + currentUser.profilePic}
+              alt=""
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <span className="text-lg font-semibold">{currentUser.name}</span>
+          </div>
           <div className="space-y-3">
             <Link to="/coming-soon" className="flex items-center gap-3">
               <img src={Friends} alt="" className="w-8 h-8" />
@@ -120,10 +124,10 @@ const LeftBar = () => {
         </div>
         <hr className="my-5 border-gray-300 dark:border-gray-700" />
         <div>
-            <button onClick={logoutHandler} className="flex items-center gap-3">
-              <img src={Logout} alt="" className="w-8 h-8" />
-              <span>Logout</span>
-            </button>
+          <button onClick={logoutHandler} className="flex items-center gap-3">
+            <img src={Logout} alt="" className="w-8 h-8" />
+            <span>Logout</span>
+          </button>
         </div>
       </div>
     </div>
@@ -131,5 +135,3 @@ const LeftBar = () => {
 };
 
 export default LeftBar;
-
-
