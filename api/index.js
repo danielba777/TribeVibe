@@ -10,6 +10,7 @@ import relationshipRoutes from "./routes/relationshipRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import storyRoutes from "./routes/storyRoutes.js"
+import 'dotenv/config'
 
 const port = 8800
 
