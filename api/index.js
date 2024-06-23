@@ -14,15 +14,27 @@ import 'dotenv/config'
 
 const port = 8800
 
+// CORS settings
+const allowedOrigins = ['https://tribe-vibe.netlify.app', 'http://localhost:3000'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // Allow requests with no origin, like mobile apps or curl requests
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+}));
+
 //middleware
 app.use((req,res,next) => {
     res.header("Access-Control-Allow-Credentials", true)
     next()
 })
 app.use(express.json())
-app.use(cors({
-    origin: "http://localhost:3000"
-}))
 app.use(cookieParser())
 
 const storage = multer.diskStorage({
