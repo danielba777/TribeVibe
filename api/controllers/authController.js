@@ -57,6 +57,8 @@ export const login = (req, res) => {
 
             res.cookie("accessToken", token, {
                 httpOnly: true,
+                secure: true,
+                sameSite: 'None',
             }).status(200).json(others)
         })
     } catch (err) {
@@ -65,11 +67,10 @@ export const login = (req, res) => {
 };
 
 export const logout = (req, res) => {
-    const options = process.env.NODE_ENV === 'production' 
-      ? { secure: true, sameSite: "none" }
-      : { secure: false, sameSite: "lax" };
 
-    res.clearCookie("accessToken", options)
-       .status(200)
-       .json("User has been logged out!");
+    res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+    }).status(200).json("User has been logged out!");
 };
