@@ -2,6 +2,7 @@ import { db } from "../connect.js"
 import jwt from "jsonwebtoken"
 import moment from "moment"
 
+// GET all comments
 export const getComments = (req,res) => {
     const q = `SELECT c.*, u.id AS userId, name, profilePic FROM comments AS c JOIN users AS u ON (u.id = c.userId) 
     WHERE c.postId = ? ORDER BY c.createdAt DESC`
@@ -12,6 +13,7 @@ export const getComments = (req,res) => {
     })
 }
 
+// ADD a comment
 export const addComment = (req, res) => {
 
     const token = req.cookies.accessToken
